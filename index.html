@@ -123,6 +123,7 @@ button {
 
 <div id="victory">
     <img src="invitation.png">
+    <h2 id="resultado-texto"></h2>
     <button onclick="location.reload()">Jugar de nuevo</button>
 </div>
 
@@ -220,10 +221,16 @@ window.addEventListener("keydown", e=>{
             ganar();
         }
         else if(intentos.length>=6){
-            message.textContent="Era " + palabra;
+            message.textContent = "Era " + palabra;
 
-        const v = document.getElementById("victory");
-        v.style.display = "flex";
+            const v = document.getElementById("victory");
+            v.style.display = "flex";
+
+            document.getElementById("resultado-texto").textContent =
+            "Perdiste, burro - Era " + palabra;
+
+            terminado = true;
+}
 
         v.innerHTML = `
             <h2 style="color:white;">Perdiste 😭</h2>
@@ -268,9 +275,13 @@ function actualizar(){
 
 // VICTORIA
 function ganar(){
-    terminado=true;
+    terminado = true;
+
     const v = document.getElementById("victory");
-    v.style.display="flex";
+    v.style.display = "flex";
+
+    document.getElementById("resultado-texto").textContent = "GANASTE 🎉";
+
     iniciarConfetti();
 }
 
