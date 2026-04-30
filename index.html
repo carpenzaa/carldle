@@ -19,8 +19,8 @@
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(6, 15vw);
-            grid-template-rows: repeat(6, 15vw);
+            grid-template-columns: repeat(6, 14vw);
+            grid-template-rows: repeat(6, 14vw);
             gap: 5px;
             justify-content: center;
             margin: 10px auto;
@@ -74,19 +74,42 @@
 
         .key.wide { min-width: 15vw; background: #645096; font-size: 0.7rem; }
 
+        /* PANTALLA FINAL */
         #victory {
             display: none;
             position: fixed;
-            top:0; left:0; width:100%; height:100%;
-            background: rgba(0,0,0,0.9);
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(10, 5, 20, 0.98); /* Muy oscuro para tapar todo */
             justify-content: center;
             align-items: center;
             flex-direction: column;
             z-index: 1000;
+            text-align: center;
         }
 
-        #victory img { max-width: 70%; border-radius: 15px; margin-bottom: 20px; }
-        button { padding: 12px 24px; font-size: 1rem; border-radius: 10px; background: #ff64b4; color: white; border: none; }
+        #victory img { 
+            max-width: 80%; 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+            display: none; /* Se activa solo si gana */
+        }
+
+        .resultado-mensaje {
+            padding: 0 20px;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+
+        button { 
+            margin-top: 20px;
+            padding: 12px 24px; 
+            font-size: 1rem; 
+            border-radius: 10px; 
+            background: #ff64b4; 
+            color: white; 
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -99,9 +122,9 @@
 <div id="message" style="height: 20px; color: #ff64b4; margin-bottom: 10px;"></div>
 
 <div id="victory">
-    <img src="invitation.png" alt="Invitación">
-    <h2 id="resultado-texto" style="padding: 0 20px;"></h2>
-    <button onclick="location.reload()">Jugar de nuevo</button>
+    <img id="img-invitacion" src="invitation.png" alt="Invitación">
+    <div id="resultado-texto" class="resultado-mensaje"></div>
+    <button onclick="location.reload()">Reintentar</button>
 </div>
 
 <canvas id="confetti" style="position:fixed; top:0; left:0; pointer-events:none;"></canvas>
@@ -116,14 +139,14 @@
     const grid = document.getElementById("grid");
     const message = document.getElementById("message");
 
-    // Crear Grilla
+    // Crear Grilla vacía
     for (let i = 0; i < 36; i++) {
         let d = document.createElement("div");
         d.className = "cell";
         grid.appendChild(d);
     }
 
-    // Crear Teclado
+    // Crear Teclado Táctil
     const filas = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
     const keyboardDiv = document.getElementById("keyboard");
 
@@ -131,7 +154,7 @@
         let row = document.createElement("div");
         row.className = "keyboard-row";
 
-        if (idx === 2) { // Fila de abajo con Enter y Borrar
+        if (idx === 2) {
             let enter = document.createElement("span");
             enter.className = "key wide";
             enter.textContent = "ENTER";
@@ -169,14 +192,13 @@
                 return;
             }
             procesarIntento();
-        } else if (intentoActual.length < 6 && tecla.length === 1) {
+        } else if (intentoActual.length < 6 && /^[a-zA-ZñÑ]$/.test(tecla)) {
             intentoActual += tecla.toUpperCase();
             message.textContent = "";
         }
         actualizarVisuals();
     }
 
-    // Soporte para teclado físico también
     window.addEventListener("keydown", (e) => manejarInput(e.key));
 
     function procesarIntento() {
@@ -199,9 +221,9 @@
 
         intentos.push({ palabra: intentoActual, res: res });
 
-        // Pintar teclado
         res.forEach((r, i) => {
             let key = document.getElementById("k_" + intentoActual[i]);
+            if (!key) return;
             if (r === "correct") key.className = "key correct";
             else if (r === "present" && !key.classList.contains("correct")) key.className = "key present";
             else if (r === "absent" && !key.classList.contains("correct") && !key.classList.contains("present")) key.className = "key absent";
@@ -235,12 +257,22 @@
 
     function final(gana) {
         terminado = true;
-        document.getElementById("victory").style.display = "flex";
-        document.getElementById("resultado-texto").innerHTML = gana ? "¡GANASTE! 🎉" : "Perdiste... <br>Era: " + palabra;
-        if (gana) iniciarConfetti();
+        const pantallaFinal = document.getElementById("victory");
+        const imagen = document.getElementById("img-invitacion");
+        const texto = document.getElementById("resultado-texto");
+
+        pantallaFinal.style.display = "flex";
+
+        if (gana) {
+            imagen.style.display = "block";
+            texto.innerHTML = "<span style='color:#50c878; font-weight:bold;'>GANASTE, CHAD. Más que invitado</span><br>Acá tenés tu invitación:";
+            iniciarConfetti();
+        } else {
+            imagen.style.display = "none";
+            texto.innerHTML = "<span style='color:#ff4b4b; font-weight:bold;'>PERDISTE, burro, tratá de vuelta dale.</span><br>La palabra era: " + palabra + "<br>Te quedaste sin invitación por ahora.";
+        }
     }
 
-    // Lógica simple de confetti
     function iniciarConfetti() {
         const canvas = document.getElementById("confetti");
         const ctx = canvas.getContext("2d");
