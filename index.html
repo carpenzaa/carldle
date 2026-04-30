@@ -53,6 +53,7 @@ h1 {
     margin-left: auto;
     margin-right: auto;
 }
+
 .keyboard-row {
     display: flex;
     justify-content: center;
@@ -60,7 +61,6 @@ h1 {
 }
 
 .key {
-    display: inline-block;
     width: 32px;
     height: 40px;
     margin: 3px;
@@ -70,6 +70,7 @@ h1 {
     font-size: 14px;
     text-align: center;
 }
+
 canvas {
     position: fixed;
     top: 0;
@@ -87,7 +88,7 @@ canvas {
     background: rgba(0,0,0,0.7);
     justify-content: center;
     align-items: center;
-    <button onclick="location.reload()">Jugar de nuevo</button>
+    flex-direction: column;
 }
 
 #victory img {
@@ -95,6 +96,16 @@ canvas {
     max-height: 80%;
     border-radius: 20px;
 }
+
+button {
+    margin-top: 15px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    background: #ff64b4;
+    color: white;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -112,10 +123,10 @@ canvas {
 
 <div id="victory">
     <img src="invitation.png">
+    <button onclick="location.reload()">Jugar de nuevo</button>
 </div>
 
 <script>
-// --- CONFIG ---
 const PALABRAS = ["PANCHO","FERNET","MUSICA","CUMPLE","FIESTA"];
 let palabra = PALABRAS[Math.floor(Math.random()*PALABRAS.length)];
 
@@ -126,14 +137,14 @@ let terminado = false;
 const grid = document.getElementById("grid");
 const message = document.getElementById("message");
 
-// --- GRILLA ---
+// GRILLA
 for (let i=0;i<36;i++){
     let d=document.createElement("div");
     d.className="cell";
     grid.appendChild(d);
 }
 
-// --- TECLADO ---
+// TECLADO
 const filas = [
     "QWERTYUIOP",
     "ASDFGHJKL",
@@ -157,15 +168,7 @@ filas.forEach(fila => {
     keyboardDiv.appendChild(row);
 });
 
-for (let l of teclado){
-    let k=document.createElement("span");
-    k.className="key";
-    k.textContent=l;
-    k.id="k_"+l;
-    keyboardDiv.appendChild(k);
-}
-
-// --- EVALUAR ---
+// EVALUAR
 function evaluar(intento, palabra){
     let res = Array(6).fill("absent");
     let count={};
@@ -191,7 +194,7 @@ function evaluar(intento, palabra){
     return res;
 }
 
-// --- INPUT ---
+// INPUT
 document.addEventListener("keydown", e=>{
     if(terminado) return;
 
@@ -207,7 +210,6 @@ document.addEventListener("keydown", e=>{
         let res=evaluar(intentoActual,palabra);
         intentos.push({palabra:intentoActual,res});
 
-        // teclado colores
         res.forEach((r,i)=>{
             let l=intentoActual[i];
             let key=document.getElementById("k_"+l);
@@ -231,7 +233,7 @@ document.addEventListener("keydown", e=>{
     actualizar();
 });
 
-// --- UPDATE ---
+// UPDATE
 function actualizar(){
     let cells=document.querySelectorAll(".cell");
 
@@ -254,14 +256,15 @@ function actualizar(){
     }
 }
 
-// --- VICTORIA ---
+// VICTORIA
 function ganar(){
     terminado=true;
-    document.getElementById("victory").style.display="block";
+    const v = document.getElementById("victory");
+    v.style.display="flex";
     iniciarConfetti();
 }
 
-// --- CONFETTI ---
+// CONFETTI
 const canvas=document.getElementById("confetti");
 const ctx=canvas.getContext("2d");
 
