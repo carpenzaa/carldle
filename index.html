@@ -8,156 +8,133 @@
         :root {
             --bg-color: #140a28;
             --text-color: #fff5dc;
-            --primary-pink: #ff64b4;
-            --accent-purple: #c8a0ff;
-            --cell-bg: #281946;
-            --cell-border: #645096;
+            --pink: #ff64b4;
+            --purple: #c8a0ff;
         }
 
         body {
             margin: 0;
             background: var(--bg-color);
             color: var(--text-color);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-            overflow-x: hidden;
+            font-family: 'Arial', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
         }
 
-        h1 { color: var(--primary-pink); margin: 20px 0 5px; font-size: 2.5rem; }
-        .sub { color: var(--accent-purple); margin-bottom: 20px; font-size: 1rem; }
+        h1 { color: var(--pink); margin: 15px 0 5px; font-size: 1.8rem; }
+        .sub { color: var(--purple); margin-bottom: 15px; font-size: 0.9rem; }
 
-        /* GRILLA RESPONSIVA */
+        /* GRILLA: Limitada en tamaño para que no explote en PC */
         .grid {
             display: grid;
-            grid-template-columns: repeat(6, 55px); /* Tamaño fijo para compu */
-            grid-template-rows: repeat(6, 55px);
-            gap: 8px;
-            margin: 10px auto;
-        }
-
-        /* Ajuste para celulares */
-        @media (max-width: 600px) {
-            .grid {
-                grid-template-columns: repeat(6, 13vw);
-                grid-template-rows: repeat(6, 13vw);
-                gap: 5px;
-            }
+            grid-template-columns: repeat(6, 1fr);
+            gap: 5px;
+            width: 90%;
+            max-width: 340px; /* Ancho máximo en PC */
+            margin: 0 auto;
         }
 
         .cell {
-            width: 100%;
-            height: 100%;
-            background: var(--cell-bg);
-            border: 2px solid var(--cell-border);
+            aspect-ratio: 1 / 1;
+            background: #281946;
+            border: 2px solid #645096;
             border-radius: 6px;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             text-transform: uppercase;
-            transition: all 0.3s;
         }
 
-        /* Colores de estado */
-        .correct { background: #50c878 !important; border-color: #50c878; color: white; }
-        .present { background: #ffbe32 !important; border-color: #ffbe32; color: white; }
-        .absent { background: #504664 !important; border-color: #504664; color: #ccc; }
+        /* Colores */
+        .correct { background: #50c878 !important; border-color: #50c878; }
+        .present { background: #ffbe32 !important; border-color: #ffbe32; }
+        .absent { background: #504664 !important; border-color: #504664; }
 
-        /* TECLADO */
+        /* TECLADO: También limitado */
         .keyboard {
-            margin: 25px auto;
+            margin-top: 20px;
             width: 100%;
-            max-width: 500px;
-            padding: 0 10px;
+            max-width: 450px; /* Ancho máximo en PC */
+            padding: 0 8px;
+            box-sizing: border-box;
         }
 
         .keyboard-row {
             display: flex;
             justify-content: center;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .key {
-            min-width: 35px;
-            height: 50px;
-            margin: 3px;
             background: #37285a;
-            border-radius: 5px;
-            font-size: 1rem;
-            font-weight: bold;
+            height: 45px;
+            margin: 2px;
+            border-radius: 4px;
             display: flex;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            user-select: none;
-            touch-action: manipulation;
             flex: 1;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            touch-action: manipulation;
         }
 
-        .key.wide { flex: 1.5; font-size: 0.8rem; background: #645096; }
+        .key.wide { flex: 1.8; font-size: 0.7rem; }
 
-        /* PANTALLA FINAL MEJORADA */
+        /* POPUP FINAL */
         #victory {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 5, 25, 0.98);
+            background: rgba(10, 5, 20, 0.98);
+            z-index: 1000;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
-            z-index: 1000;
+            text-align: center;
         }
 
-        #victory img { 
-            max-width: 300px; 
-            width: 80%;
-            border-radius: 15px; 
-            margin-bottom: 20px; 
+        #img-invitacion {
+            max-width: 280px;
+            width: 85%;
+            border-radius: 12px;
             display: none;
-            box-shadow: 0 0 30px rgba(255, 100, 180, 0.3);
+            margin-bottom: 15px;
         }
 
-        .resultado-mensaje {
-            padding: 20px;
-            font-size: 1.3rem;
-            max-width: 80%;
-        }
-
-        button { 
-            padding: 15px 30px; 
-            font-size: 1.1rem; 
-            font-weight: bold;
-            border-radius: 12px; 
-            background: var(--primary-pink); 
-            color: white; 
+        button {
+            background: var(--pink);
+            color: white;
             border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-        button:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-<h1>Carldle</h1>
-<div class="sub">el que no la saca no come torta</div>
+    <h1>Carldle</h1>
+    <div class="sub">el que no la saca no come torta</div>
 
-<div id="grid" class="grid"></div>
-<div id="message" style="height: 25px; color: var(--primary-pink); margin: 10px 0; font-weight: bold;"></div>
-<div id="keyboard" class="keyboard"></div>
+    <div id="grid" class="grid"></div>
+    <div id="message" style="height: 20px; margin: 10px 0; color: var(--pink); font-size: 0.9rem;"></div>
+    <div id="keyboard" class="keyboard"></div>
 
-<div id="victory">
-    <img id="img-invitacion" src="invitation.png" alt="Invitación">
-    <div id="resultado-texto" class="resultado-mensaje"></div>
-    <button onclick="location.reload()">VOLVER A INTENTAR</button>
-</div>
+    <div id="victory">
+        <img id="img-invitacion" src="invitation.png" alt="Invitación">
+        <div id="resultado-texto" style="padding: 15px; line-height: 1.4;"></div>
+        <button onclick="location.reload()">REINTENTAR</button>
+    </div>
 
-<canvas id="confetti" style="position:fixed; top:0; left:0; pointer-events:none;"></canvas>
+    <canvas id="confetti" style="position:fixed; top:0; left:0; pointer-events:none;"></canvas>
 
 <script>
     const PALABRAS = ["PANCHO", "FERNET", "MUSICA", "CUMPLE", "FIESTA", "CARLOS"];
@@ -166,15 +143,15 @@
     let intentos = [];
     let terminado = false;
 
-    // Crear Grilla
-    const grid = document.getElementById("grid");
+    // Generar Grilla
+    const gridDiv = document.getElementById("grid");
     for (let i = 0; i < 36; i++) {
-        let d = document.createElement("div");
-        d.className = "cell";
-        grid.appendChild(d);
+        let cell = document.createElement("div");
+        cell.className = "cell";
+        gridDiv.appendChild(cell);
     }
 
-    // Crear Teclado
+    // Generar Teclado
     const filas = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
     const keyboardDiv = document.getElementById("keyboard");
 
@@ -183,7 +160,7 @@
         row.className = "keyboard-row";
 
         if (idx === 2) {
-            let enter = document.createElement("span");
+            let enter = document.createElement("div");
             enter.className = "key wide";
             enter.textContent = "ENTER";
             enter.onclick = () => manejarInput("Enter");
@@ -191,7 +168,7 @@
         }
 
         for (let l of fila) {
-            let k = document.createElement("span");
+            let k = document.createElement("div");
             k.className = "key";
             k.textContent = l;
             k.id = "k_" + l;
@@ -200,7 +177,7 @@
         }
 
         if (idx === 2) {
-            let del = document.createElement("span");
+            let del = document.createElement("div");
             del.className = "key wide";
             del.textContent = "BORRAR";
             del.onclick = () => manejarInput("Backspace");
@@ -211,18 +188,17 @@
 
     function manejarInput(tecla) {
         if (terminado) return;
-
         if (tecla === "Backspace") {
             intentoActual = intentoActual.slice(0, -1);
         } else if (tecla === "Enter") {
             if (intentoActual.length < 6) {
                 document.getElementById("message").textContent = "¡Faltan letras!";
-                setTimeout(() => document.getElementById("message").textContent = "", 2000);
                 return;
             }
             procesarIntento();
         } else if (intentoActual.length < 6 && /^[a-zA-ZñÑ]$/.test(tecla)) {
             intentoActual += tecla.toUpperCase();
+            document.getElementById("message").textContent = "";
         }
         actualizarVisuals();
     }
@@ -259,45 +235,40 @@
 
         if (intentoActual === palabra) final(true);
         else if (intentos.length >= 6) final(false);
-
         intentoActual = "";
     }
 
     function actualizarVisuals() {
         let cells = document.querySelectorAll(".cell");
-        cells.forEach(c => { c.textContent = ""; if(!c.classList.contains('correct') && !c.classList.contains('present') && !c.classList.contains('absent')) c.className = "cell"; });
-
         intentos.forEach((int, f) => {
             for (let i = 0; i < 6; i++) {
                 let idx = f * 6 + i;
                 cells[idx].textContent = int.palabra[i];
-                cells[idx].className = "cell " + int.res[i];
+                cells[idx].classList.add(int.res[i]);
             }
         });
-
         let fActual = intentos.length;
         if (fActual < 6) {
-            for (let i = 0; i < intentoActual.length; i++) {
-                cells[fActual * 6 + i].textContent = intentoActual[i];
+            for (let i = 0; i < 6; i++) {
+                let idx = fActual * 6 + i;
+                cells[idx].textContent = intentoActual[i] || "";
             }
         }
     }
 
     function final(gana) {
         terminado = true;
-        const pantallaFinal = document.getElementById("victory");
-        const imagen = document.getElementById("img-invitacion");
-        const texto = document.getElementById("resultado-texto");
-
         setTimeout(() => {
-            pantallaFinal.style.display = "flex";
+            document.getElementById("victory").style.display = "flex";
+            const img = document.getElementById("img-invitacion");
+            const txt = document.getElementById("resultado-texto");
             if (gana) {
-                imagen.style.display = "block";
-                texto.innerHTML = "<h2 style='color:#50c878'>GANASTE, CRACK. te mereces la invitación</h2><p>Lo lograste. Aquí tienes los detalles de la fiesta:</p>";
+                img.style.display = "block";
+                txt.innerHTML = "<h2 style='color:#50c878'>¡GANASTE! 🎉</h2><p>Acá tenés la invitación:</p>";
                 iniciarConfetti();
             } else {
-                imagen.style.display = "none";
-                texto.innerHTML = "<h2 style='color:#ff4b4b'>MALISIMO como vas a perder asiii. Jugá de vuelta dale, asi sabes donde es.</h2><p>No pudiste adivinar. La palabra era <strong>" + palabra + "</strong>.</p><p>¡Inténtalo de nuevo para ver la invitación!</p>";
+                img.style.display = "none";
+                txt.innerHTML = "<h2 style='color:#ff4b4b'>PERDISTE ❌</h2><p>La palabra era <b>"+palabra+"</b>.<br>¡Intentá de nuevo!</p>";
             }
         }, 500);
     }
@@ -307,17 +278,17 @@
         const ctx = canvas.getContext("2d");
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        let particles = Array.from({length: 150}, () => ({
-            x: Math.random()*canvas.width, y: Math.random()*canvas.height - canvas.height,
-            s: Math.random()*6 + 4, d: Math.random()*4 + 2, c: `hsl(${Math.random()*360}, 80%, 60%)`
+        let p = Array.from({length: 100}, () => ({
+            x: Math.random()*canvas.width, y: -20,
+            s: Math.random()*5+5, d: Math.random()*3+2, c: `hsl(${Math.random()*360}, 70%, 60%)`
         }));
         function draw() {
             ctx.clearRect(0,0,canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.y += p.d; if(p.y > canvas.height) p.y = -20;
-                ctx.fillStyle = p.c; ctx.fillRect(p.x, p.y, p.s, p.s);
+            p.forEach(part => {
+                part.y += part.d;
+                ctx.fillStyle = part.c; ctx.fillRect(part.x, part.y, part.s, part.s);
             });
-            requestAnimationFrame(draw);
+            if(p[0].y < canvas.height) requestAnimationFrame(draw);
         }
         draw();
     }
