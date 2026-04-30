@@ -220,9 +220,19 @@ window.addEventListener("keydown", e=>{
             ganar();
         }
         else if(intentos.length>=6){
-            message.textContent="Era "+palabra;
-            terminado=true;
-        }
+            message.textContent="Era " + palabra;
+
+        const v = document.getElementById("victory");
+        v.style.display = "flex";
+
+        v.innerHTML = `
+            <h2 style="color:white;">Perdiste 😭</h2>
+            <p>La palabra era ${palabra}</p>
+            <button onclick="location.reload()">Jugar de nuevo</button>
+    `   ;
+
+    terminado = true;
+}
 
         intentoActual="";
     }
