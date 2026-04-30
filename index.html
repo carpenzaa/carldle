@@ -26,13 +26,12 @@
         h1 { color: var(--pink); margin: 15px 0 5px; font-size: 1.8rem; }
         .sub { color: var(--purple); margin-bottom: 15px; font-size: 0.9rem; }
 
-        /* GRILLA: Limitada en tamaño para que no explote en PC */
         .grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
             gap: 5px;
             width: 90%;
-            max-width: 340px; /* Ancho máximo en PC */
+            max-width: 340px;
             margin: 0 auto;
         }
 
@@ -49,16 +48,15 @@
             text-transform: uppercase;
         }
 
-        /* Colores */
         .correct { background: #50c878 !important; border-color: #50c878; }
         .present { background: #ffbe32 !important; border-color: #ffbe32; }
         .absent { background: #504664 !important; border-color: #504664; }
 
-        /* TECLADO: También limitado */
+ 
         .keyboard {
             margin-top: 20px;
             width: 100%;
-            max-width: 450px; /* Ancho máximo en PC */
+            max-width: 450px;
             padding: 0 8px;
             box-sizing: border-box;
         }
@@ -86,7 +84,6 @@
 
         .key.wide { flex: 1.8; font-size: 0.7rem; }
 
-        /* POPUP FINAL */
         #victory {
             display: none;
             position: fixed;
@@ -122,7 +119,7 @@
 <body>
 
     <h1>Carldle</h1>
-    <div class="sub">el que no la saca no come torta</div>
+    <div class="sub">El que no gana no come torta</div>
 
     <div id="grid" class="grid"></div>
     <div id="message" style="height: 20px; margin: 10px 0; color: var(--pink); font-size: 0.9rem;"></div>
@@ -137,13 +134,12 @@
     <canvas id="confetti" style="position:fixed; top:0; left:0; pointer-events:none;"></canvas>
 
 <script>
-    const PALABRAS = ["PANCHO", "FERNET", "MUSICA", "CUMPLE", "FIESTA", "CARLOS"];
+    const PALABRAS = ["PANCHO", "FERNET", "MUSICA", "CUMPLE", "FIESTA", "JUEGOS", "COMIDA", ""];
     let palabra = PALABRAS[Math.floor(Math.random() * PALABRAS.length)].toUpperCase();
     let intentoActual = "";
     let intentos = [];
     let terminado = false;
 
-    // Generar Grilla
     const gridDiv = document.getElementById("grid");
     for (let i = 0; i < 36; i++) {
         let cell = document.createElement("div");
@@ -151,7 +147,6 @@
         gridDiv.appendChild(cell);
     }
 
-    // Generar Teclado
     const filas = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
     const keyboardDiv = document.getElementById("keyboard");
 
