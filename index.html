@@ -53,6 +53,11 @@ h1 {
     margin-left: auto;
     margin-right: auto;
 }
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
 
 .key {
     display: inline-block;
@@ -129,8 +134,28 @@ for (let i=0;i<36;i++){
 }
 
 // --- TECLADO ---
-const teclado = "QWERTYUIOPASDFGHJKLZXCVBNM";
+const filas = [
+    "QWERTYUIOP",
+    "ASDFGHJKL",
+    "ZXCVBNM"
+];
+
 const keyboardDiv = document.getElementById("keyboard");
+
+filas.forEach(fila => {
+    let row = document.createElement("div");
+    row.className = "keyboard-row";
+
+    for (let l of fila){
+        let k = document.createElement("span");
+        k.className = "key";
+        k.textContent = l;
+        k.id = "k_" + l;
+        row.appendChild(k);
+    }
+
+    keyboardDiv.appendChild(row);
+});
 
 for (let l of teclado){
     let k=document.createElement("span");
